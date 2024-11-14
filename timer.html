@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broccoli 🥦 Timer</title>
+    <title>🥦 Timer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,12 +51,12 @@
 </head>
 <body>
 
-    <div class="current-time" id="current-time">当前时间: </div>
+    <div class="current-time" id="current-time">Current Time: </div>
     <div class="timer" id="timer">00:00:00</div>
     <div class="controls">
-        <button id="startBtn">开始</button>
-        <button id="stopBtn">停止</button>
-        <button id="resetBtn">重置</button>
+        <button id="startBtn">Start</button>
+        <button id="stopBtn">Stop</button>
+        <button id="resetBtn">Reset</button>
     </div>
 
     <script>
@@ -126,7 +126,7 @@
 
             const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
                                  ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            document.getElementById('current-time').textContent = `Now: ${displayTime}`;
+            document.getElementById('current-time').textContent = `${displayTime}`;
         }
 
         // 每秒更新当前时间
