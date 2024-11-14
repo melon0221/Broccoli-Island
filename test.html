@@ -3,125 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>翻页时分秒时间显示</title>
+    <title>🥦 Island</title>
     <style>
-        /* 页面样式 */
+        /* Dark Theme Styles */
         body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            flex-direction: column;
         }
-        .time-container {
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .button-container {
             display: flex;
             gap: 20px;
-            font-size: 2em;
         }
-        .time-box {
-            position: relative;
-            width: 100px;
-            height: 60px;
-            background: #333;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border-radius: 10px;
-            perspective: 1000px;
+
+        button {
+            background-color: transparent;
+            color: #00e676; /* 绿色文本 */
+            border: 2px solid #00e676; /* 绿色边框 */
+            padding: 12px 60px;
+            font-size: 1.2rem;
+            font-weight: bold; /* 加粗 */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
         }
-        .time-box-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
+
+        button:hover {
+            background-color: #00e676; /* 背景颜色改为绿色 */
+            color: #121212; /* 鼠标悬停时文字颜色变为暗色 */
         }
-        .time-box.flip .time-box-inner {
-            transform: rotateX(-180deg);
-        }
-        .time-top, .time-bottom {
-            position: absolute;
-            width: 100%;
-            height: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            backface-visibility: hidden;
-        }
-        .time-top {
-            background: #444;
-            top: 0;
-            transform-origin: bottom;
-        }
-        .time-bottom {
-            background: #555;
-            bottom: 0;
-            transform-origin: top;
-            transform: rotateX(180deg);
+
+        button:focus {
+            outline: none;
         }
     </style>
 </head>
 <body>
-    <div class="time-container">
-        <div id="hour" class="time-box">
-            <div class="time-box-inner">
-                <div class="time-top">00</div>
-                <div class="time-bottom">00</div>
-            </div>
-        </div>
-        <div id="minute" class="time-box">
-            <div class="time-box-inner">
-                <div class="time-top">00</div>
-                <div class="time-bottom">00</div>
-            </div>
-        </div>
-        <div id="second" class="time-box">
-            <div class="time-box-inner">
-                <div class="time-top">00</div>
-                <div class="time-bottom">00</div>
-            </div>
-        </div>
+    <h1>Welcome to 🥦 Island QwQ</h1>
+    <div class="button-container">
+        <button onclick="window.location.href='https://melon0221.github.io/broccoli-timer/timer'">Timer</button>
+        <button onclick="window.location.href='https://melon0221.github.io/broccoli-timer/Flip Clock'">Flip Clock</button>
     </div>
-
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const hour = String(now.getHours()).padStart(2, '0');
-            const minute = String(now.getMinutes()).padStart(2, '0');
-            const second = String(now.getSeconds()).padStart(2, '0');
-
-            flip('hour', hour);
-            flip('minute', minute);
-            flip('second', second);
-        }
-
-        function flip(id, newValue) {
-            const element = document.getElementById(id);
-            const top = element.querySelector('.time-top');
-            const bottom = element.querySelector('.time-bottom');
-            const boxInner = element.querySelector('.time-box-inner');
-
-            if (top.textContent !== newValue) {
-                top.textContent = newValue;
-                bottom.textContent = newValue;
-                element.classList.add('flip');
-                
-                // 动画结束后，移除 flip 类
-                setTimeout(() => {
-                    element.classList.remove('flip');
-                }, 600);
-            }
-        }
-
-        // 每秒更新时间
-        setInterval(updateTime, 1000);
-        updateTime();
-    </script>
 </body>
 </html>
