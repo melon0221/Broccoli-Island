@@ -26,14 +26,11 @@
             height: 60px;
             background: #333;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
             border-radius: 10px;
             perspective: 1000px;
+            overflow: hidden;
         }
-        .time-box .top, .time-box .bottom, .time-box .new-top {
+        .top, .bottom {
             position: absolute;
             width: 100%;
             height: 50%;
@@ -43,23 +40,24 @@
             font-size: 1.5em;
             font-weight: bold;
             backface-visibility: hidden;
+            transition: transform 0.4s ease;
         }
         .top {
             top: 0;
-            background: #444;
             transform-origin: bottom;
-            transition: transform 0.3s;
+            background: #444;
         }
         .bottom {
             bottom: 0;
-            background: #555;
             transform-origin: top;
-            transition: transform 0.3s;
+            background: #555;
+            transform: rotateX(90deg);
         }
-        .new-top {
-            top: 0;
-            background: #444;
+        .flip .top {
             transform: rotateX(-90deg);
+        }
+        .flip .bottom {
+            transform: rotateX(0deg);
         }
     </style>
 </head>
@@ -68,17 +66,14 @@
         <div id="hour" class="time-box">
             <div class="top">00</div>
             <div class="bottom">00</div>
-            <div class="new-top">00</div>
         </div>
         <div id="minute" class="time-box">
             <div class="top">00</div>
             <div class="bottom">00</div>
-            <div class="new-top">00</div>
         </div>
         <div id="second" class="time-box">
             <div class="top">00</div>
             <div class="bottom">00</div>
-            <div class="new-top">00</div>
         </div>
     </div>
 
@@ -98,21 +93,17 @@
             const element = document.getElementById(id);
             const top = element.querySelector('.top');
             const bottom = element.querySelector('.bottom');
-            const newTop = element.querySelector('.new-top');
 
+            // 如果数值有变化，才触发翻页动画
             if (top.textContent !== newValue) {
-                newTop.textContent = newValue;
-                
-                // 触发翻页动画
-                top.style.transform = 'rotateX(-90deg)';
-                bottom.style.transform = 'rotateX(0deg)';
+                top.textContent = newValue;
+                element.classList.add('flip');  // 触发翻页动画
 
+                // 短暂延时后更新 bottom 的内容，并移除动画类
                 setTimeout(() => {
-                    top.textContent = newValue;
-                    top.style.transform = 'rotateX(0deg)';
-                    bottom.style.transform = 'rotateX(90deg)';
                     bottom.textContent = newValue;
-                }, 300);
+                    element.classList.remove('flip');
+                }, 400);  // 确保动画完成后再重置
             }
         }
 
