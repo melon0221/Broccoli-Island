@@ -12,14 +12,20 @@
             align-items: center;
             flex-direction: column;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #121212; /* 深色背景 */
+            color: #ffffff; /* 浅色文字 */
             margin: 0;
+        }
+        .current-time {
+            font-size: 28px; /* 增大字体 */
+            font-weight: bold; /* 加粗 */
+            margin-bottom: 20px;
         }
         .timer {
             font-size: 48px;
             font-weight: bold;
-            background-color: #333;
-            color: #fff;
+            background-color: #333; /* 深色背景 */
+            color: #fff; /* 浅色文字 */
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -31,18 +37,21 @@
             cursor: pointer;
             border-radius: 5px;
             border: none;
+            background-color: #444; /* 深色按钮背景 */
+            color: #fff;
             transition: background-color 0.3s ease;
         }
         .controls button:hover {
-            background-color: #ddd;
+            background-color: #555; /* 按钮悬停效果 */
         }
         .controls button:active {
-            background-color: #bbb;
+            background-color: #666; /* 按钮点击效果 */
         }
     </style>
 </head>
 <body>
 
+    <div class="current-time" id="current-time">当前时间: </div>
     <div class="timer" id="timer">00:00:00</div>
     <div class="controls">
         <button id="startBtn">开始</button>
@@ -56,6 +65,7 @@
         let hours = 0;
         let isRunning = false;
         let timerInterval;
+        let currentTimeInterval;
 
         function updateTime() {
             seconds++;
@@ -103,6 +113,24 @@
             document.getElementById('startBtn').disabled = false;
             document.getElementById('stopBtn').disabled = true;
         }
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // 月份从0开始
+            const day = now.getDate();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
+                                 ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            document.getElementById('current-time').textContent = `当前时间: ${displayTime}`;
+        }
+
+        // 每秒更新当前时间
+        currentTimeInterval = setInterval(updateCurrentTime, 1000);
 
         document.getElementById('startBtn').addEventListener('click', startTimer);
         document.getElementById('stopBtn').addEventListener('click', stopTimer);
