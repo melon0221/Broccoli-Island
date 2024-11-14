@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>正计时网页</title>
+  <style>
+    /* 页面整体样式 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212; /* 深色背景 */
+      color: #f5f5f5; /* 浅色文字 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* 计时器显示样式 */
+    #countup {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #f5f5f5; /* 浅色字体 */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="countup">距离2024年1月1日已经过去了：0天 0小时 0分钟 0秒</div>
+
+  <script>
+    let timer;
+    const startDate = new Date('2024-01-01T00:00:00');
+
+    const countUp = () => {
+      const now = new Date();
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById('countup').innerHTML = `距离2024年1月1日已经过去了：${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+    }
+
+    // 立即启动计时器
+    timer = setInterval(countUp, 1000);
+  </script>
+</body>
+
+</html>
