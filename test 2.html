@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻页年月日时间显示</title>
+    <style>
+        /* 页面样式 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .date-container {
+            display: flex;
+            gap: 20px;
+            font-size: 2em;
+        }
+        .date-box {
+            position: relative;
+            width: 100px;
+            height: 60px;
+            background: #333;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .date-box .top, .date-box .bottom {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: 0.3s;
+            backface-visibility: hidden;
+        }
+        .top {
+            top: 0;
+            background: #444;
+        }
+        .bottom {
+            bottom: 0;
+            background: #555;
+        }
+        .flip .top {
+            transform: rotateX(-90deg);
+        }
+        .flip .bottom {
+            transform: rotateX(0deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="date-container">
+        <div id="year" class="date-box"><div class="top">0000</div><div class="bottom">0000</div></div>
+        <div id="month" class="date-box"><div class="top">00</div><div class="bottom">00</div></div>
+        <div id="day" class="date-box"><div class="top">00</div><div class="bottom">00</div></div>
+    </div>
+
+    <script>
+        function updateDate() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+
+            flip('year', year);
+            flip('month', month);
+            flip('day', day);
+        }
+
+        function flip(id, newValue) {
+            const element = document.getElementById(id);
+            const top = element.querySelector('.top');
+            const bottom = element.querySelector('.bottom');
+
+            if (top.textContent !== newValue) {
+                top.textContent = newValue;
+                element.classList.remove('flip');
+                void element.offsetWidth; // 触发重绘
+                element.classList.add('flip');
+                setTimeout(() => {
+                    bottom.textContent = newValue;
+                }, 300);
+            }
+        }
+
+        // 每秒更新时间
+        setInterval(updateDate, 1000);
+        updateDate();
+    </script>
+</body>
+</html>
