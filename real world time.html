@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>正计时网页</title>
+  <title>🥦Real World Time</title>
   <style>
     /* 页面整体样式 */
     body {
@@ -29,7 +29,7 @@
 </head>
 
 <body>
-  <div id="countup">距离2024年1月1日已经过去了：0天 0小时 0分钟 0秒</div>
+  <div id="countup">距离2024年1月1日已经过去了</div>
 
   <script>
     let timer;
@@ -42,7 +42,7 @@
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      document.getElementById('countup').innerHTML = `距离2024年1月1日已经过去了：${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+      document.getElementById('countup').innerHTML = `Counting from January 1st, 2024：${days}Day ${hours}Hour ${minutes}Min ${seconds}Sec`;
     }
 
     // 立即启动计时器
