@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>时间正计时</title>
+    <title>Broccoli 🥦 Timer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,7 +126,7 @@
 
             const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
                                  ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            document.getElementById('current-time').textContent = `当前时间: ${displayTime}`;
+            document.getElementById('current-time').textContent = `Now: ${displayTime}`;
         }
 
         // 每秒更新当前时间
