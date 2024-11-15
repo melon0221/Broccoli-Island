@@ -1,74 +1,130 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥦Jumping Emoji</title>
+    <title>🥦</title>
     <style>
-        /* 页面整体样式 */
+        /* Ensure html and body take up the full height */
+        html, body {
+            height: 100%; /* Ensure the page covers the full height of the screen */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        /* Dark Sea Pixel Art Background */
         body {
+            background: linear-gradient(to bottom, #1a3d53, #0f1e29); /* Deep sea gradient */
+            color: white;
+            font-family: 'Poppins', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #121212;
-            color: #ffd700;
-            font-family: Arial, sans-serif;
-            overflow: hidden; /* 防止溢出 */
+            flex-direction: column;
+            overflow: hidden; /* Prevent overflow */
+            text-align: center;
+            min-height: 100vh; /* Ensure body fills the entire screen */
+            position: relative;
         }
 
-        /* 油菜花样式 */
-        .flower {
-            font-size: 8vw; /* 使用视口宽度（vw）单位来确保字体大小适应不同设备 */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: white; /* White color for the text */
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glow effect for text */
             display: flex;
             gap: 0.2em;
-            justify-content: center; /* 水平居中 */
-            align-items: center; /* 垂直居中 */
+            flex-wrap: wrap;
+            justify-content: center;
+            letter-spacing: 0.05em;
+            text-align: center;
         }
 
-        /* 跳动动画 */
-        .flower span {
+        /* Bouncing Animation for Title */
+        h1 span {
             animation: bounce 1s infinite alternate;
             display: inline-block;
         }
 
-        /* 为不同的表情符号添加不同的动画延迟 */
-        .flower span:nth-child(1) { animation-delay: 0s; }
-        .flower span:nth-child(2) { animation-delay: 0.2s; }
-        .flower span:nth-child(3) { animation-delay: 0.4s; }
-        .flower span:nth-child(4) { animation-delay: 0.6s; }
-        .flower span:nth-child(5) { animation-delay: 0.8s; }
+        h1 span:nth-child(1) { animation-delay: 0s; }
+        h1 span:nth-child(2) { animation-delay: 0.2s; }
+        h1 span:nth-child(3) { animation-delay: 0.4s; }
+        h1 span:nth-child(4) { animation-delay: 0.6s; }
 
-        /* 跳动效果的关键帧 */
         @keyframes bounce {
             0% { transform: translateY(0); }
             100% { transform: translateY(-20px); }
         }
 
-        /* 针对小屏设备优化 */
-        @media (max-width: 600px) {
-            .flower {
-                font-size: 12vw; /* 小屏幕时字体更大 */
-            }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            z-index: 1; /* Ensure buttons are on top of the background */
+            width: 100%;
         }
 
-        /* 针对大屏设备优化 */
-        @media (min-width: 1200px) {
-            .flower {
-                font-size: 4vw; /* 大屏幕时字体更小 */
+        button {
+            background: transparent; 
+            color: #00e676; 
+            border: 2px solid #00e676; 
+            padding: 12px 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+        }
+
+        button:hover {
+            background: rgba(0, 230, 118, 0.3); 
+            color: white; 
+            transform: translateY(-4px); 
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.6); 
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            button {
+                padding: 12px 40px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 表情符号油菜花 -->
-    <div class="flower">
-        <span>🌼</span>
-        <span>🥦</span>
-        <span>🌼</span>
-        <span>🥦</span>
-        <span>🌼</span>
+    <h1 id="title"></h1>
+    <div class="button-container">
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/timer'">Timer</button>
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/Emoji Jumping'">Jumping Emoji</button>
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/test'">Jumping Characters</button>
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/real world time'">Real World Time</button>
     </div>
+
+    <script>
+        const title = document.getElementById("title");
+        const text = "Welcome to 🥦 Island QwQ";
+        const words = text.split(" "); 
+        words.forEach((word, index) => {
+            const span = document.createElement("span");
+            span.textContent = word;
+            title.appendChild(span);
+        });
+    </script>
 </body>
 </html>
