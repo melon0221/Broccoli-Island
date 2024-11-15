@@ -9,13 +9,14 @@
         body {
             background-color: #121212;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             flex-direction: column;
+            padding: 20px;
         }
 
         h1 {
@@ -24,52 +25,77 @@
             text-align: center;
             display: flex;
             gap: 0.2em;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        /* 跳动动画 */
+        /* Bouncing Animation */
         h1 span {
             animation: bounce 1s infinite alternate;
             display: inline-block;
         }
 
-        /* 不同词组的动画延迟 */
+        /* Delayed Bounce for Each Word */
         h1 span:nth-child(1) { animation-delay: 0s; }
         h1 span:nth-child(2) { animation-delay: 0.2s; }
         h1 span:nth-child(3) { animation-delay: 0.4s; }
         h1 span:nth-child(4) { animation-delay: 0.6s; }
 
-        /* 跳动效果的关键帧 */
+        /* Bounce Keyframe */
         @keyframes bounce {
             0% { transform: translateY(0); }
             100% { transform: translateY(-20px); }
         }
 
-        /* 按钮样式 */
+        /* Button Container */
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
+            align-items: center;
         }
 
         button {
-            background-color: transparent;
-            color: #00e676;
-            border: 2px solid #00e676;
+            background: transparent; /* Transparent background */
+            color: #00e676; /* Green text color */
+            border: 2px solid #00e676; /* Green border */
             padding: 12px 60px;
             font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
         }
 
+        /* Button hover effect */
         button:hover {
-            background-color: #00e676;
-            color: #121212;
+            background: rgba(0, 230, 118, 0.3); /* Transparent Green on Hover */
+            color: white; /* Change text color on hover */
+            transform: translateY(-4px); /* Hover: Slight movement upwards */
         }
 
+        /* Button active effect (when clicked) */
+        button:active {
+            transform: translateY(2px); /* Click: Button moves down slightly */
+        }
+
+        /* Button focus effect */
         button:focus {
             outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.6); /* Focus Ring */
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            button {
+                padding: 12px 40px;
+            }
         }
     </style>
 </head>
