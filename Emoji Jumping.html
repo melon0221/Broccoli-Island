@@ -15,13 +15,16 @@
             background-color: #121212;
             color: #ffd700;
             font-family: Arial, sans-serif;
+            overflow: hidden; /* 防止溢出 */
         }
 
         /* 油菜花样式 */
         .flower {
-            font-size: 4em;
+            font-size: 8vw; /* 使用视口宽度（vw）单位来确保字体大小适应不同设备 */
             display: flex;
             gap: 0.2em;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
         }
 
         /* 跳动动画 */
@@ -41,6 +44,20 @@
         @keyframes bounce {
             0% { transform: translateY(0); }
             100% { transform: translateY(-20px); }
+        }
+
+        /* 针对小屏设备优化 */
+        @media (max-width: 600px) {
+            .flower {
+                font-size: 12vw; /* 小屏幕时字体更大 */
+            }
+        }
+
+        /* 针对大屏设备优化 */
+        @media (min-width: 1200px) {
+            .flower {
+                font-size: 4vw; /* 大屏幕时字体更小 */
+            }
         }
     </style>
 </head>
