@@ -130,4 +130,20 @@
     <h1 id="title"></h1>
     <div class="button-container">
         <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/timer'">Timer</button>
-        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/Emoji Jumping'">Jumping Emoji</
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/Emoji Jumping'">Jumping Emoji</button>
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/test'">Jumping Characters</button>
+        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/real world time'">Real World Time</button>
+    </div>
+
+    <script>
+        const title = document.getElementById("title");
+        const text = "Welcome to 🥦 Island QwQ";
+        const words = text.split(" "); 
+        words.forEach((word, index) => {
+            const span = document.createElement("span");
+            span.textContent = word;
+            title.appendChild(span);
+        });
+    </script>
+</body>
+</html>
