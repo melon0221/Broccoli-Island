@@ -67,6 +67,19 @@
         let timerInterval;
         let currentTimeInterval;
 
+        // 检查 localStorage 中是否有之前的计时器数据
+        if (localStorage.getItem('timerData')) {
+            const { storedHours, storedMinutes, storedSeconds, running } = JSON.parse(localStorage.getItem('timerData'));
+            hours = storedHours;
+            minutes = storedMinutes;
+            seconds = storedSeconds;
+            isRunning = running;
+
+            if (isRunning) {
+                startTimer();
+            }
+        }
+
         function updateTime() {
             seconds++;
             if (seconds === 60) {
@@ -83,6 +96,14 @@
             const displayHours = hours < 10 ? '0' + hours : hours;
 
             document.getElementById('timer').textContent = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+            
+            // 每秒保存当前计时状态到 localStorage
+            localStorage.setItem('timerData', JSON.stringify({
+                storedHours: hours,
+                storedMinutes: minutes,
+                storedSeconds: seconds,
+                running: isRunning
+            }));
         }
 
         function startTimer() {
@@ -100,6 +121,13 @@
                 isRunning = false;
                 document.getElementById('startBtn').disabled = false;
                 document.getElementById('stopBtn').disabled = true;
+                // 停止时也更新 localStorage 状态
+                localStorage.setItem('timerData', JSON.stringify({
+                    storedHours: hours,
+                    storedMinutes: minutes,
+                    storedSeconds: seconds,
+                    running: isRunning
+                }));
             }
         }
 
@@ -112,6 +140,7 @@
             document.getElementById('timer').textContent = '00:00:00';
             document.getElementById('startBtn').disabled = false;
             document.getElementById('stopBtn').disabled = true;
+            localStorage.removeItem('timerData'); // 重置时清除 localStorage
         }
 
         // 更新当前时间
