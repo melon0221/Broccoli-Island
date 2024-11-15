@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
   <meta charset="UTF-8">
   <title>🥦Real World Time</title>
@@ -8,7 +7,6 @@
     /* 页面整体样式 */
     body {
       font-family: Arial, sans-serif;
-      background-color: #121212; /* 深色背景 */
       background: linear-gradient(135deg, #2c3e50, #34495e); /* 深色渐变背景 */
       color: #f5f5f5; /* 浅色文字 */
       display: flex;
@@ -20,15 +18,10 @@
       overflow: hidden;
       text-align: center;
     }
-
-    /* 计时器显示样式 */
-    #countup {
     /* 初始文本样式 */
     #introText {
       font-size: 2.5em;
       margin-bottom: 30px;
-      text-align: center;
-      color: #f5f5f5; /* 浅色字体 */
       color: #ecf0f1;
       opacity: 0;
       animation: fadeInUp 2s forwards;
@@ -87,4 +80,37 @@
       }
     }
   </style>
+
 </head>
+<body>
+  <div id="introText">Counting from January 1st, 2024</div>
+  <div id="countup">Loading Time...</div>
+  <script>
+    let timer;
+    const startDate = new Date('2024-01-01T00:00:00Z'); // 使用UTC时间
+    const countUp = () => {
+      const now = new Date();
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      // 格式化数字，确保两位数显示
+      const pad = (num) => (num < 10 ? '0' + num : num);
+      // 更新计时器内容
+      document.getElementById('countup').innerHTML = `
+        <span class="timeUnit">${pad(days)}</span> Day 
+        <span class="timeUnit">${pad(hours)}</span> Hour 
+        <span class="timeUnit">${pad(minutes)}</span> Min 
+        <span class="timeUnit">${pad(seconds)}</span> Sec`;
+    }
+    // 计时器启动
+    setTimeout(() => {
+      // 在初始文本动画结束后开始计时
+      timer = setInterval(countUp, 1000);
+    }, 4000); // 延迟4秒（包括动画时间）
+    // 启动计时器立即执行第一次更新（初始化显示）
+    countUp();
+  </script>
+</body>
+</html>
