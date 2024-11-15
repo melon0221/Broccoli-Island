@@ -1,131 +1,187 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
-  <meta charset="UTF-8">
-  <title>🥦Real World Time</title>
-  <style>
-    /* 页面整体样式 */
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #2c3e50, #34495e); /* 深色渐变背景 */
-      color: #f5f5f5; /* 浅色文字 */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      text-align: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥦 Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 10px;
+        }
 
-    /* 初始文本样式 */
-    #introText {
-      font-size: 2.5em;
-      margin-bottom: 30px;
-      color: #ecf0f1;
-      opacity: 0;
-      animation: fadeInUp 2s forwards;
-      animation-delay: 1s;
-      font-weight: bold;
-    }
+        .current-time {
+            font-size: 4vw; /* 字体大小根据屏幕宽度调整 */
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    /* 计时器文本样式 */
-    #countup {
-      font-size: 2.5em;
-      color: #f39c12; /* 亮黄色字体 */
-      opacity: 0;
-      animation: fadeIn 1s forwards;
-      animation-delay: 3s;
-      font-weight: bold;
-      letter-spacing: 1px; /* 字母间距 */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 阴影效果 */
-      border-radius: 8px;
-      padding: 20px;
-      display: inline-block; /* 确保显示为块元素 */
-    }
+        .timer {
+            font-size: 8vw; /* 字体大小根据屏幕宽度调整 */
+            font-weight: bold;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    /* 计时器中的具体时间部分的样式 */
-    .timeUnit {
-      display: inline-block;
-      padding: 10px 15px;
-      margin: 0 5px;
-      border: 2px solid #f39c12; /* 边框 */
-      border-radius: 8px;
-      background-color: #1c2833;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 阴影效果 */
-    }
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-    /* 动画：淡入并向上移动 */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .controls button {
+            font-size: 2.5vw;
+            padding: 12px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background-color: #444;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
 
-    /* 动画：淡入显示计时器 */
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        .controls button:hover {
+            background-color: #555;
+        }
 
-    /* 响应式调整 */
-    @media (max-width: 600px) {
-      #introText, #countup {
-        font-size: 2em;
-        padding: 15px;
-      }
-    }
+        .controls button:active {
+            background-color: #666;
+        }
 
-  </style>
+        /* 针对较小屏幕的优化 */
+        @media (max-width: 600px) {
+            .current-time {
+                font-size: 5vw; /* 小屏幕下字体稍微减小 */
+            }
+
+            .timer {
+                font-size: 10vw; /* 小屏幕下字体稍微减小 */
+            }
+
+            .controls button {
+                font-size: 3.5vw; /* 小屏幕下按钮文字适当调整 */
+            }
+        }
+
+        /* 针对较大屏幕的优化 */
+        @media (min-width: 1200px) {
+            .current-time {
+                font-size: 2.5rem;
+            }
+
+            .timer {
+                font-size: 4rem;
+            }
+
+            .controls button {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div id="introText">Counting from January 1st, 2024</div>
-  <div id="countup">Loading Time...</div>
 
-  <script>
-    let timer;
-    const startDate = new Date('2024-01-01T00:00:00Z'); // 使用UTC时间
+    <div class="current-time" id="current-time">Current Time</div>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="stopBtn">Stop</button>
+        <button id="resetBtn">Reset</button>
+    </div>
 
-    const countUp = () => {
-      const now = new Date();
-      const diff = now - startDate;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    <script>
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        let isRunning = false;
+        let timerInterval;
+        let currentTimeInterval;
 
-      // 格式化数字，确保两位数显示
-      const pad = (num) => (num < 10 ? '0' + num : num);
+        function updateTime() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
 
-      // 更新计时器内容
-      document.getElementById('countup').innerHTML = `
-        <span class="timeUnit">${pad(days)}</span> Day 
-        <span class="timeUnit">${pad(hours)}</span> Hour 
-        <span class="timeUnit">${pad(minutes)}</span> Min 
-        <span class="timeUnit">${pad(seconds)}</span> Sec`;
-    }
+            const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const displayHours = hours < 10 ? '0' + hours : hours;
 
-    // 计时器启动
-    setTimeout(() => {
-      // 在初始文本动画结束后开始计时
-      timer = setInterval(countUp, 1000);
-    }, 4000); // 延迟4秒（包括动画时间）
+            document.getElementById('timer').textContent = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+        }
 
-    // 启动计时器立即执行第一次更新（初始化显示）
-    countUp();
-  </script>
+        function startTimer() {
+            if (!isRunning) {
+                timerInterval = setInterval(updateTime, 1000);
+                isRunning = true;
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+            }
+        }
+
+        function stopTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            document.getElementById('timer').textContent = '00:00:00';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+        }
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
+                                 ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            document.getElementById('current-time').textContent = `${displayTime}`;
+        }
+
+        // 每秒更新当前时间
+        currentTimeInterval = setInterval(updateCurrentTime, 1000);
+
+        document.getElementById('startBtn').addEventListener('click', startTimer);
+        document.getElementById('stopBtn').addEventListener('click', stopTimer);
+        document.getElementById('resetBtn').addEventListener('click', resetTimer);
+    </script>
+
 </body>
-
 </html>
