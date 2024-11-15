@@ -3,128 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥦</title>
+    <title>🥦 Timer</title>
     <style>
-        /* Ensure html and body take up the full height */
-        html, body {
-            height: 100%; /* Make sure the page covers the full height of the screen */
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Dark Sea Pixel Art Background */
         body {
-            background: linear-gradient(to bottom, #1a3d53, #0f1e29); /* Deep sea gradient */
-            color: white;
-            font-family: 'Poppins', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow: hidden; /* Prevent overflow and ensure full screen background */
-            text-align: center;
-            min-height: 100vh; /* Ensure body fills the entire screen */
-            padding: 20px;
-            position: relative;
+            height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 10px;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 50px;
-            color: white; /* White color for the text */
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Glow effect for text */
-            display: flex;
-            gap: 0.2em;
-            flex-wrap: wrap;
-            justify-content: center;
-            letter-spacing: 0.05em;
-            text-align: center;
-        }
-
-        /* Bouncing Animation for Title */
-        h1 span {
-            animation: bounce 1s infinite alternate;
-            display: inline-block;
-        }
-
-        h1 span:nth-child(1) { animation-delay: 0s; }
-        h1 span:nth-child(2) { animation-delay: 0.2s; }
-        h1 span:nth-child(3) { animation-delay: 0.4s; }
-        h1 span:nth-child(4) { animation-delay: 0.6s; }
-
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-20px); }
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            z-index: 1; /* Ensure buttons are on top of the background */
-            width: 100%;
-        }
-
-        button {
-            background: transparent; 
-            color: #00e676; 
-            border: 2px solid #00e676; 
-            padding: 12px 60px;
-            font-size: 1.2rem;
+        .current-time {
+            font-size: 4vw; /* 字体大小根据屏幕宽度调整 */
             font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 8vw; /* 字体大小根据屏幕宽度调整 */
+            font-weight: bold;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            font-size: 2.5vw;
+            padding: 12px 20px;
+            margin: 5px;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.3s ease, transform 0.2s ease;
-            width: 100%;
-            max-width: 300px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+            border: none;
+            background-color: #444;
+            color: #fff;
+            transition: background-color 0.3s ease;
         }
 
-        button:hover {
-            background: rgba(0, 230, 118, 0.3); 
-            color: white; 
-            transform: translateY(-4px); 
+        .controls button:hover {
+            background-color: #555;
         }
 
-        button:active {
-            transform: translateY(2px);
+        .controls button:active {
+            background-color: #666;
         }
 
-        button:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.6); 
-        }
-
+        /* 针对较小屏幕的优化 */
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 30px;
+            .current-time {
+                font-size: 5vw; /* 小屏幕下字体稍微减小 */
             }
-            button {
-                padding: 12px 40px;
+
+            .timer {
+                font-size: 10vw; /* 小屏幕下字体稍微减小 */
+            }
+
+            .controls button {
+                font-size: 3.5vw; /* 小屏幕下按钮文字适当调整 */
+            }
+        }
+
+        /* 针对较大屏幕的优化 */
+        @media (min-width: 1200px) {
+            .current-time {
+                font-size: 2.5rem;
+            }
+
+            .timer {
+                font-size: 4rem;
+            }
+
+            .controls button {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1 id="title"></h1>
-    <div class="button-container">
-        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/timer'">Timer</button>
-        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/Emoji Jumping'">Jumping Emoji</button>
-        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/test'">Jumping Characters</button>
-        <button onclick="window.location.href='https://melon0221.github.io/Broccoli-Island/real world time'">Real World Time</button>
+
+    <div class="current-time" id="current-time">Current Time</div>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="stopBtn">Stop</button>
+        <button id="resetBtn">Reset</button>
     </div>
 
     <script>
-        const title = document.getElementById("title");
-        const text = "Welcome to 🥦 Island QwQ";
-        const words = text.split(" "); 
-        words.forEach((word, index) => {
-            const span = document.createElement("span");
-            span.textContent = word;
-            title.appendChild(span);
-        });
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        let isRunning = false;
+        let timerInterval;
+        let currentTimeInterval;
+
+        function updateTime() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const displayHours = hours < 10 ? '0' + hours : hours;
+
+            document.getElementById('timer').textContent = `${displayHours}:${displayMinutes}:${displaySeconds}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                timerInterval = setInterval(updateTime, 1000);
+                isRunning = true;
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+            }
+        }
+
+        function stopTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            document.getElementById('timer').textContent = '00:00:00';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+        }
+
+        // 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
+                                 ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            document.getElementById('current-time').textContent = `${displayTime}`;
+        }
+
+        // 每秒更新当前时间
+        currentTimeInterval = setInterval(updateCurrentTime, 1000);
+
+        document.getElementById('startBtn').addEventListener('click', startTimer);
+        document.getElementById('stopBtn').addEventListener('click', stopTimer);
+        document.getElementById('resetBtn').addEventListener('click', resetTimer);
     </script>
+
 </body>
 </html>
