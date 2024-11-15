@@ -3,185 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥦 Timer</title>
+    <title>🥦Jumping Emoji</title>
     <style>
+        /* 页面整体样式 */
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             height: 100vh;
-            background-color: #121212;
-            color: #ffffff;
             margin: 0;
-            padding: 10px;
+            background-color: #121212;
+            color: #ffd700;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* 防止溢出 */
         }
 
-        .current-time {
-            font-size: 4vw; /* 字体大小根据屏幕宽度调整 */
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .timer {
-            font-size: 8vw; /* 字体大小根据屏幕宽度调整 */
-            font-weight: bold;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .controls {
+        /* 油菜花样式 */
+        .flower {
+            font-size: 8vw; /* 使用视口宽度（vw）单位来确保字体大小适应不同设备 */
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 0.2em;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
         }
 
-        .controls button {
-            font-size: 2.5vw;
-            padding: 12px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-            background-color: #444;
-            color: #fff;
-            transition: background-color 0.3s ease;
+        /* 跳动动画 */
+        .flower span {
+            animation: bounce 1s infinite alternate;
+            display: inline-block;
         }
 
-        .controls button:hover {
-            background-color: #555;
+        /* 为不同的表情符号添加不同的动画延迟 */
+        .flower span:nth-child(1) { animation-delay: 0s; }
+        .flower span:nth-child(2) { animation-delay: 0.2s; }
+        .flower span:nth-child(3) { animation-delay: 0.4s; }
+        .flower span:nth-child(4) { animation-delay: 0.6s; }
+        .flower span:nth-child(5) { animation-delay: 0.8s; }
+
+        /* 跳动效果的关键帧 */
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
         }
 
-        .controls button:active {
-            background-color: #666;
-        }
-
-        /* 针对较小屏幕的优化 */
+        /* 针对小屏设备优化 */
         @media (max-width: 600px) {
-            .current-time {
-                font-size: 5vw; /* 小屏幕下字体稍微减小 */
-            }
-
-            .timer {
-                font-size: 10vw; /* 小屏幕下字体稍微减小 */
-            }
-
-            .controls button {
-                font-size: 3.5vw; /* 小屏幕下按钮文字适当调整 */
+            .flower {
+                font-size: 12vw; /* 小屏幕时字体更大 */
             }
         }
 
-        /* 针对较大屏幕的优化 */
+        /* 针对大屏设备优化 */
         @media (min-width: 1200px) {
-            .current-time {
-                font-size: 2.5rem;
-            }
-
-            .timer {
-                font-size: 4rem;
-            }
-
-            .controls button {
-                font-size: 1.5rem;
+            .flower {
+                font-size: 4vw; /* 大屏幕时字体更小 */
             }
         }
     </style>
 </head>
 <body>
-
-    <div class="current-time" id="current-time">Current Time</div>
-    <div class="timer" id="timer">00:00:00</div>
-    <div class="controls">
-        <button id="startBtn">Start</button>
-        <button id="stopBtn">Stop</button>
-        <button id="resetBtn">Reset</button>
+    <!-- 表情符号油菜花 -->
+    <div class="flower">
+        <span>🌼</span>
+        <span>🥦</span>
+        <span>🌼</span>
+        <span>🥦</span>
+        <span>🌼</span>
     </div>
-
-    <script>
-        let seconds = 0;
-        let minutes = 0;
-        let hours = 0;
-        let isRunning = false;
-        let timerInterval;
-        let currentTimeInterval;
-
-        function updateTime() {
-            seconds++;
-            if (seconds === 60) {
-                seconds = 0;
-                minutes++;
-                if (minutes === 60) {
-                    minutes = 0;
-                    hours++;
-                }
-            }
-
-            const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
-            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-            const displayHours = hours < 10 ? '0' + hours : hours;
-
-            document.getElementById('timer').textContent = `${displayHours}:${displayMinutes}:${displaySeconds}`;
-        }
-
-        function startTimer() {
-            if (!isRunning) {
-                timerInterval = setInterval(updateTime, 1000);
-                isRunning = true;
-                document.getElementById('startBtn').disabled = true;
-                document.getElementById('stopBtn').disabled = false;
-            }
-        }
-
-        function stopTimer() {
-            if (isRunning) {
-                clearInterval(timerInterval);
-                isRunning = false;
-                document.getElementById('startBtn').disabled = false;
-                document.getElementById('stopBtn').disabled = true;
-            }
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            seconds = 0;
-            minutes = 0;
-            hours = 0;
-            document.getElementById('timer').textContent = '00:00:00';
-            document.getElementById('startBtn').disabled = false;
-            document.getElementById('stopBtn').disabled = true;
-        }
-
-        // 更新当前时间
-        function updateCurrentTime() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const day = now.getDate();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-
-            const displayTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} 
-                                 ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            document.getElementById('current-time').textContent = `${displayTime}`;
-        }
-
-        // 每秒更新当前时间
-        currentTimeInterval = setInterval(updateCurrentTime, 1000);
-
-        document.getElementById('startBtn').addEventListener('click', startTimer);
-        document.getElementById('stopBtn').addEventListener('click', stopTimer);
-        document.getElementById('resetBtn').addEventListener('click', resetTimer);
-    </script>
-
 </body>
 </html>
